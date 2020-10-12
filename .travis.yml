@@ -1,0 +1,13 @@
+language: python
+python:
+-   3.8
+-   3.7
+-   3.6
+-   pypy3
+before_install:
+-   pip install poetry
+-   poetry build
+install:
+-   pip install dist/iso_4217-*.whl pytest
+script:
+-   pytest --doctest-modules --doctest-glob="*.rst"

@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "iso_4217"
+version = "0.1.0"
+description = "ISO 4217 currency code library"
+authors = ["Igor Kozyrenko <igor@ikseek.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.6.1"
+
+[tool.poetry.dev-dependencies]
+pytest = "^4.6"
+pre-commit = "^2.7.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
