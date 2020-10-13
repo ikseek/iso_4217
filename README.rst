@@ -1,6 +1,9 @@
 ``iso_4217``: Yet another currency data package for Python
 ==========================================================
 .. image:: https://travis-ci.org/ikseek/iso_4217.svg?branch=main
+   :target: https://travis-ci.org/ikseek/iso_4217
+.. image:: https://img.shields.io/pypi/v/iso-4217.svg
+   :target: https://pypi.org/project/iso-4217/
 
 This package contains ISO 4217 active and historical currency data.
 Written and tested for Python 3.6 and above.
