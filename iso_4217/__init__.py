@@ -10,7 +10,7 @@ __version__ = "{}.{:%y%m%d}".format(__version_prefix__, __published_date__)
 
 def _generate_enum(locals):
     for k, v in _TABLE.items():
-        locals[k] = v.pop("number")
+        locals[k] = (v.number, v.discriminator) if v.discriminator else v.number
 
 
 class Currency(enum.Enum):
@@ -38,6 +38,21 @@ class Currency(enum.Enum):
     """
 
     @property
+    def number(self) -> Optional[int]:
+        """
+        Three-digit currency code number.
+        Same as value except for historical currencies that might have their
+        number reused and have tuple(currnency number, alias number)
+        as value.
+
+        >>> Currency.USD.number
+        840
+        >>> Currency.UYN.number
+        858
+        """
+        return _TABLE[self.name].number
+
+    @property
     def full_name(self) -> str:
         """
         Name of the currency
@@ -45,7 +60,7 @@ class Currency(enum.Enum):
         >>> Currency.CHF.full_name
         'Swiss Franc'
         """
-        return _TABLE[self.name]["name"]
+        return _TABLE[self.name].name
 
     @property
     def entities(self) -> FrozenSet[str]:
@@ -59,7 +74,7 @@ class Currency(enum.Enum):
         >>> Currency.ECV.entities
         frozenset()
         """
-        return _TABLE[self.name]["entities"]
+        return _TABLE[self.name].entities
 
     @property
     def withdrew_entities(self) -> Tuple[Tuple[str, str], ...]:
@@ -70,7 +85,7 @@ class Currency(enum.Enum):
         >>> Currency.UAK.withdrew_entities
         (('UKRAINE', '1996-09'),)
         """
-        return _TABLE[self.name]["withdrew_entities"]
+        return _TABLE[self.name].withdrew_entities
 
     @property
     def is_fund(self) -> bool:
@@ -80,7 +95,7 @@ class Currency(enum.Enum):
         >>> Currency.USN.is_fund
         True
         """
-        return _TABLE[self.name]["is_fund"]
+        return _TABLE[self.name].is_fund
 
     @property
     def units(self) -> Optional[int]:
@@ -95,6 +110,6 @@ class Currency(enum.Enum):
         >>> Currency.JPY.units
         0
         """
-        return _TABLE[self.name]["units"]
+        return _TABLE[self.name].units
 
     _generate_enum(locals())

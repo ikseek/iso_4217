@@ -1,9 +1,23 @@
 from datetime import datetime
 from itertools import chain, groupby
-from typing import Callable, Iterable, Optional, Tuple, Union
+from typing import Callable, FrozenSet, Iterable, NamedTuple, Optional, Tuple, Union
 from xml.etree import ElementTree
 
 from pkg_resources import resource_string
+
+
+class Info(NamedTuple):
+    """
+    Contains all the information about currency joined from both lists
+    """
+
+    number: Optional[int]
+    discriminator: int
+    name: str
+    units: Optional[int]
+    is_fund: bool
+    entities: FrozenSet[str]
+    withdrew_entities: Tuple[Tuple[str, str], ...]
 
 
 def load_lists() -> Tuple[datetime, dict]:
@@ -24,7 +38,7 @@ def load_lists() -> Tuple[datetime, dict]:
     currencies = (
         _group_entities(list(g)) for _, g in groupby(both, lambda c: c["currency"])
     )
-    return max(date1, date2), {c.pop("currency"): c for c in currencies}
+    return max(date1, date2), {c.pop("currency"): Info(**c) for c in currencies}
 
 
 def _load_list(
@@ -46,13 +60,15 @@ def _currency_data(node: ElementTree, seen_codes: dict) -> Optional[dict]:
     if name.text != "No universal currency":
         units = node.find("CcyMnrUnts").text
         currency = node.find("Ccy").text
+        number, disc = _currency_number(seen_codes, currency, node.find("CcyNbr").text)
         return dict(
-            entity=node.find("CtryNm").text.strip(),
-            name=name.text,
             currency=currency,
-            number=_currency_number(seen_codes, currency, node.find("CcyNbr").text),
-            is_fund="IsFund" in name.attrib,
+            number=number,
+            discriminator=disc,
+            name=name.text,
             units=int(units) if units != "N.A." else None,
+            is_fund="IsFund" in name.attrib,
+            entity=node.find("CtryNm").text.strip(),
             historic=False,
         )
 
@@ -64,14 +80,16 @@ def _historic_data(node: ElementTree, seen_codes: dict) -> dict:
 
     name = node.find("CcyNm")
     currency = field("Ccy")
+    number, disc = _currency_number(seen_codes, currency, field("CcyNbr"))
     return dict(
-        entity=field("CtryNm").strip(),
-        name=name.text,
         currency=currency,
-        number=_currency_number(seen_codes, currency, field("CcyNbr")),
-        withdrawal_date=field("WthdrwlDt"),
-        is_fund="IsFund" in name.attrib,
+        number=number,
+        discriminator=disc,
+        name=name.text,
         units=None,
+        is_fund="IsFund" in name.attrib,
+        entity=field("CtryNm").strip(),
+        withdrawal_date=field("WthdrwlDt"),
         historic=True,
     )
 
@@ -81,8 +99,8 @@ def _currency_number(
 ) -> Union[int, Tuple[int, int]]:
     number = int(number) if number else None
     code_currencies = seen_codes.setdefault(number, {})
-    currency_unique_code = code_currencies.setdefault(currency, len(code_currencies))
-    return (number, currency_unique_code) if currency_unique_code else number
+    discriminator = code_currencies.setdefault(currency, len(code_currencies))
+    return number, discriminator
 
 
 def _group_entities(currencies) -> dict:
