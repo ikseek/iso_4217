@@ -21,7 +21,7 @@ frozenset({'JAPAN'})
 <Currency.ZWR: 935>
 >>> Currency.ZWR.entities
 frozenset()
->>> Currency.ZWR.withdrawn_entities
+>>> Currency.ZWR.withdrew_entities
 (('ZIMBABWE', '2009-06'),)
 
 Inspired by `iso4217`_ package by Hong Minhee.

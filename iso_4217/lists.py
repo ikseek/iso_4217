@@ -69,7 +69,7 @@ def _historic_data(node: ElementTree, seen_codes: dict) -> dict:
         name=name.text,
         currency=currency,
         number=_currency_number(seen_codes, currency, field("CcyNbr")),
-        withdrawl_date=field("WthdrwlDt"),
+        withdrawal_date=field("WthdrwlDt"),
         is_fund="IsFund" in name.attrib,
         units=None,
         historic=True,
@@ -87,10 +87,10 @@ def _currency_number(
 
 def _group_entities(currencies) -> dict:
     entities = frozenset(c.pop("entity") for c in currencies if not c["historic"])
-    withdrawn_entities = tuple(
-        (c.pop("entity"), c.pop("withdrawl_date")) for c in currencies if c["historic"]
+    withdrew_entities = tuple(
+        (c.pop("entity"), c.pop("withdrawal_date")) for c in currencies if c["historic"]
     )
     currencies[0].pop("historic")
     currencies[0]["entities"] = entities
-    currencies[0]["withdrawn_entities"] = withdrawn_entities
+    currencies[0]["withdrew_entities"] = withdrew_entities
     return currencies[0]

@@ -62,15 +62,15 @@ class Currency(enum.Enum):
         return _TABLE[self.name]["entities"]
 
     @property
-    def withdrawn_entities(self) -> Tuple[Tuple[str, str], ...]:
+    def withdrew_entities(self) -> Tuple[Tuple[str, str], ...]:
         """
         Countries or other entities that do not use the currency anymore.
         :return: List of tuples of entities and dates when withdrawl happened.
 
-        >>> Currency.UAK.withdrawn_entities
+        >>> Currency.UAK.withdrew_entities
         (('UKRAINE', '1996-09'),)
         """
-        return _TABLE[self.name]["withdrawn_entities"]
+        return _TABLE[self.name]["withdrew_entities"]
 
     @property
     def is_fund(self) -> bool:
