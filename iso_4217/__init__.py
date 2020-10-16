@@ -112,4 +112,7 @@ class Currency(enum.Enum):
         """
         return _TABLE[self.name].units
 
+    def __str__(self):
+        return self.name
+
     _generate_enum(locals())
