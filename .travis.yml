@@ -6,8 +6,13 @@ python:
 -   pypy3
 before_install:
 -   pip install poetry
--   poetry build
 install:
--   pip install dist/iso_4217-*.whl pytest
+-   poetry install
 script:
--   pytest --doctest-modules --doctest-glob="*.rst"
+-   poetry run pytest --doctest-modules --doctest-glob="*.rst"
+before_deploy:
+-   poetry config pypi-token.pypi $PYPI_TOKEN
+deploy:
+    on: {tags: true}
+    provider: script
+    script: poetry publish --build
