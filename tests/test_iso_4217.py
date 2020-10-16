@@ -2,7 +2,7 @@ from iso_4217 import Currency, __version__
 
 
 def test_version():
-    assert __version__ == "0.1.180829"
+    assert __version__ == "0.2.180829"
 
 
 def test_currency_count():
