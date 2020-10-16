@@ -6,7 +6,7 @@ from xml.etree import ElementTree
 from pkg_resources import resource_string
 
 
-class Info(NamedTuple):
+class CurrencyInfo(NamedTuple):
     """
     Contains all the information about currency joined from both lists
     """
@@ -38,7 +38,8 @@ def load_lists() -> Tuple[datetime, dict]:
     currencies = (
         _group_entities(list(g)) for _, g in groupby(both, lambda c: c["currency"])
     )
-    return max(date1, date2), {c.pop("currency"): Info(**c) for c in currencies}
+    table = ((c.pop("currency"), CurrencyInfo(**c)) for c in currencies)
+    return max(date1, date2), {name: info for name, info in table}
 
 
 def _load_list(
