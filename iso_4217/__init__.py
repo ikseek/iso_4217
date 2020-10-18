@@ -53,14 +53,14 @@ class Currency(enum.Enum):
         return _TABLE[self.name].number
 
     @property
-    def full_name(self) -> str:
+    def unit(self) -> str:
         """
-        Name of the currency
+        Name of the signle unit of the currency
 
-        >>> Currency.CHF.full_name
+        >>> Currency.CHF.unit
         'Swiss Franc'
         """
-        return _TABLE[self.name].name
+        return _TABLE[self.name].unit
 
     @property
     def entities(self) -> FrozenSet[str]:
@@ -98,19 +98,19 @@ class Currency(enum.Enum):
         return _TABLE[self.name].is_fund
 
     @property
-    def units(self) -> Optional[int]:
+    def subunit_exp(self) -> Optional[int]:
         """
-        Minor currency units.
+        Power of ten to produce amount of subunits in single currency unit
         :return: Number of digits after decimal point
 
-        >>> Currency.BHD.units
+        >>> Currency.BHD.subunit_exp
         3
-        >>> Currency.USD.units
+        >>> Currency.USD.subunit_exp
         2
-        >>> Currency.JPY.units
+        >>> Currency.JPY.subunit_exp
         0
         """
-        return _TABLE[self.name].units
+        return _TABLE[self.name].subunit_exp
 
     def __str__(self):
         return self.name

@@ -10,7 +10,7 @@ Written and tested for Python 3.6 and above.
 >>> from iso_4217 import Currency
 >>> Currency.USD
 <Currency.USD: 840>
->>> Currency.USD.full_name
+>>> Currency.USD.unit
 'US Dollar'
 >>> Currency(840)
 <Currency.USD: 840>
