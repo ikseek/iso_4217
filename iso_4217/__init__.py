@@ -1,10 +1,10 @@
 import enum
 from typing import FrozenSet, Optional, Tuple
 
-from .lists import load_lists
+from . import lists
 
 __version_prefix__ = "0.2"
-__published_date__, _TABLE = load_lists()
+__published_date__, _TABLE = lists.load()
 __version__ = "{}.{:%y%m%d}".format(__version_prefix__, __published_date__)
 
 

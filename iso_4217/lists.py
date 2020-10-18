@@ -20,7 +20,7 @@ class CurrencyInfo(NamedTuple):
     withdrew_entities: Tuple[Tuple[str, str], ...]
 
 
-def load_lists() -> Tuple[datetime, dict]:
+def load() -> Tuple[datetime, dict]:
     # Used to keep track and separate (historical) currencies sharing the same
     # currency number. Pre-initialized with None to avoid having None assigned
     # as enum value to number-less historical funds.
