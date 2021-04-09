@@ -1,4 +1,5 @@
-from iso_4217 import Currency, __version__
+from iso_4217 import Currency, Historic, __version__
+from iso_4217.lists import ApproxDate, ApproxTimeSpan
 
 
 def test_version():
@@ -28,7 +29,9 @@ def test_eur():
     assert Currency.EUR.name == "EUR"
     assert Currency.EUR.unit == "Euro"
     assert len(Currency.EUR.entities) == 35
-    assert Currency.EUR.withdrew_entities == (("SERBIA AND MONTENEGRO", "2006-10"),)
+    assert Currency.EUR.withdrew_entities == (
+        ("SERBIA AND MONTENEGRO", ApproxTimeSpan(ApproxDate(2006, 10))),
+    )
     assert Currency.EUR.is_fund is False
     assert Currency.EUR.subunit_exp == 2
 
@@ -38,12 +41,19 @@ def test_ron():
     assert Currency.RON.name == "RON"
     assert Currency.RON.unit == "Romanian Leu"
     assert Currency.RON.entities == frozenset({"ROMANIA"})
-    assert Currency.RON.withdrew_entities == (("ROMANIA", "2015-06"),)
+    assert Currency.RON.withdrew_entities == (
+        ("ROMANIA", ApproxTimeSpan(ApproxDate(2015, 6))),
+    )
     assert Currency.RON.is_fund is False
     assert Currency.RON.subunit_exp == 2
 
 
+def test_bgk_bgj():
+    assert Currency.BGK.value == Historic(100, "BGK")
+    assert Currency.BGJ.value == Historic(100, "BGJ")
+
+
 def test_missing_codes():
-    assert Currency.XFO.value == (None, 1)
-    assert Currency.XRE.value == (None, 2)
-    assert Currency.XFU.value == (None, 3)
+    assert Currency.XFO.value == Historic(None, "XFO")
+    assert Currency.XRE.value == Historic(None, "XRE")
+    assert Currency.XFU.value == Historic(None, "XFU")

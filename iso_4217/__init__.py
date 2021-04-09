@@ -1,16 +1,17 @@
 import enum
 from typing import FrozenSet, Optional, Tuple
 
-from . import lists
+from .lists import Historic, load
 
 __version_prefix__ = "0.2"
-__published_date__, _TABLE = lists.load()
+__published_date__, _TABLE = load()
 __version__ = "{}.{:%y%m%d}".format(__version_prefix__, __published_date__)
+__all__ = ("Currency", "Historic")
 
 
 def _generate_enum(locals):
     for k, v in _TABLE.items():
-        locals[k] = (v.number, v.discriminator) if v.discriminator else v.number
+        locals[k] = v.discriminator
 
 
 class Currency(enum.Enum):
