@@ -30,11 +30,11 @@ class Currency(enum.Enum):
     >>> Currency['EUR'].value
     978
     >>> Currency['XFU'].value
-    (None, 3)
+    Historic(number=None, code='XFU')
     >>> Currency.UYU
     <Currency.UYU: 858>
     >>> Currency.UYN
-    <Currency.UYN: (858, 1)>
+    <Currency.UYN: Historic(number=858, code='UYN')>
 
     """
 
@@ -84,7 +84,7 @@ class Currency(enum.Enum):
         :return: List of tuples of entities and dates when withdrawl happened.
 
         >>> Currency.UAK.withdrew_entities
-        (('UKRAINE', '1996-09'),)
+        (('UKRAINE', ApproxTimeSpan(end=ApproxDate(year=1996, month=9), begin=None)),)
         """
         return _TABLE[self.name].withdrew_entities
 

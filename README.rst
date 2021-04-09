@@ -17,11 +17,11 @@ Written and tested for Python 3.6 and above.
 >>> Currency.JPY.entities
 frozenset({'JAPAN'})
 >>> Currency.ZWR
-<Currency.ZWR: 935>
+<Currency.ZWR: Historic(number=935, code='ZWR')>
 >>> Currency.ZWR.entities
 frozenset()
 >>> Currency.ZWR.withdrew_entities
-(('ZIMBABWE', '2009-06'),)
+(('ZIMBABWE', ApproxTimeSpan(end=ApproxDate(year=2009, month=6), begin=None)),)
 
 Inspired by `iso4217`_ package by Hong Minhee.
 

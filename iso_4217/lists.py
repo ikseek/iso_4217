@@ -7,6 +7,8 @@ from pkg_resources import resource_string
 
 
 class ApproxDate(NamedTuple):
+    """Parsed approximate currency withdrawal date"""
+
     year: int
     month: Optional[int] = None
 
@@ -19,6 +21,8 @@ class ApproxDate(NamedTuple):
 
 
 class ApproxTimeSpan(NamedTuple):
+    """Parsed approximate currency withdrawal time span"""
+
     end: ApproxDate
     begin: Optional[ApproxDate] = None
 
@@ -33,7 +37,7 @@ class ApproxTimeSpan(NamedTuple):
 class Historic(NamedTuple):
     """Datatype that sets apart active and historic currencies"""
 
-    value: Optional[int]
+    number: Optional[int]
     code: str
 
 
