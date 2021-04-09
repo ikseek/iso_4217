@@ -102,19 +102,16 @@ def _currency_data(node: ElementTree) -> Optional[dict]:
 
 
 def _historic_data(node: ElementTree) -> dict:
-    def field(tag_name):
-        sub_node = node.find(tag_name)
-        return sub_node.text if sub_node is not None else None
-
     unit = node.find("CcyNm")
-    code = field("Ccy")
+    number = node.find("CcyNbr")
+    number = number.text if number is not None else None
     return dict(
-        code=code,
-        number=int(field("CcyNbr")) if field("CcyNbr") else None,
+        code=node.find("Ccy").text,
+        number=int(number) if number else None,
         unit=unit.text.rstrip(),
         subunit_exp=None,
         is_fund="IsFund" in unit.attrib,
-        entity=field("CtryNm").strip(),
+        entity=node.find("CtryNm").text.strip(),
         withdrawal_date=ApproxTimeSpan.from_str(node.find("WthdrwlDt").text),
     )
 
