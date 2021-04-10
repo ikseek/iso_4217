@@ -1,9 +1,10 @@
-from pint import get_application_registry
+from pint import UnitRegistry, get_application_registry
 
 from . import Currency
 
 
-def define_currency_units(registry=None):
+def define_currency_units(registry: UnitRegistry = None):
+    """Define currency units in a given pint UnitRegistry"""
     registry = registry or get_application_registry()
     for currency in Currency:
         if currency.subunit_exp:

@@ -23,6 +23,30 @@ frozenset()
 >>> Currency.ZWR.withdrew_entities
 (('ZIMBABWE', ApproxTimeSpan(end=ApproxDate(year=2009, month=6), begin=None)),)
 
+Can define units in pint UnitRegistry:
+
+>>> from pint import UnitRegistry
+>>> from iso_4217.pint import define_currency_units
+>>> reg = define_currency_units(UnitRegistry())
+>>> 5 * reg.USD
+<Quantity(5, 'USD')>
+>>> reg("5 Euros")
+<Quantity(5, 'EUR')>
+
+Subunits are defined with _su suffix:
+
+>>> 5 * reg.USD_su
+<Quantity(5, 'USD_su')>
+>>> (5 * reg.USD_su).to("USD")
+<Quantity(0.05, 'USD')>
+
+Each currency is defined within it's own dimension:
+
+>>> (5 * reg.USD).to('EUR')
+Traceback (most recent call last):
+...
+pint.errors.DimensionalityError: Cannot convert from 'USD' ([currency_USD]) to 'EUR' ([currency_EUR])
+
 Inspired by `iso4217`_ package by Hong Minhee.
 
 .. _iso4217: https://github.com/dahlia/iso4217
