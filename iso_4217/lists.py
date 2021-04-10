@@ -13,7 +13,8 @@ class ApproxDate(NamedTuple):
     month: Optional[int] = None
 
     def __str__(self):
-        return "{}-{}".format(self.year, self.month) if self.month else str(self.year)
+        year, month = self.year, self.month
+        return "{}-{:02}".format(year, month) if month else str(year)
 
     @classmethod
     def from_str(cls, text: str):
