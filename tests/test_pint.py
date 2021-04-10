@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 import pint
 import pytest
 
@@ -15,7 +17,7 @@ def test_us_dollars():
 
 
 def test_us_dollar_cents():
-    assert 5 * reg.USD_su == 0.05 * reg.USD
+    assert 5 * reg.sUSD == Decimal("0.05") * reg.USD
 
 
 def test_cant_convert_dollars_euro():

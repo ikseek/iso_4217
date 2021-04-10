@@ -25,19 +25,18 @@ frozenset()
 
 Can define units in pint UnitRegistry:
 
->>> from pint import UnitRegistry
 >>> from iso_4217.pint import define_currency_units
->>> reg = define_currency_units(UnitRegistry())
+>>> reg = define_currency_units()
 >>> 5 * reg.USD
 <Quantity(5, 'USD')>
 >>> reg("5 Euros")
 <Quantity(5, 'EUR')>
 
-Subunits are defined with _su suffix:
+Subunits are defined with s prefix:
 
->>> 5 * reg.USD_su
-<Quantity(5, 'USD_su')>
->>> (5 * reg.USD_su).to("USD")
+>>> 5 * reg.sUSD
+<Quantity(5, 'sUSD')>
+>>> (5 * reg.sUSD).to("USD")
 <Quantity(0.05, 'USD')>
 
 Each currency is defined within it's own dimension:
