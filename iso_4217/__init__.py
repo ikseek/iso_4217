@@ -84,7 +84,7 @@ class Currency(enum.Enum):
         :return: List of tuples of entities and dates when withdrawl happened.
 
         >>> Currency.UAK.withdrew_entities
-        (('UKRAINE', ApproxTimeSpan(end=ApproxDate(year=1996, month=9), begin=None)),)
+        (('UKRAINE', 'Karbovanet', ApproxTimeSpan(end=ApproxDate(year=1996, month=9...)
         """
         return _TABLE[self.name].withdrew_entities
 

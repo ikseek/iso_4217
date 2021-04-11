@@ -20,4 +20,4 @@ jobs:
                 python -m pip install --upgrade pip setuptools poetry
                 poetry install -E pint
         -   name: Test with pytest
-            run: poetry run pytest --doctest-modules --doctest-glob="*.rst"
+            run: poetry run pytest

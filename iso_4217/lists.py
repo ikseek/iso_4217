@@ -1,6 +1,15 @@
 from datetime import datetime
 from itertools import chain, groupby
-from typing import Callable, FrozenSet, Iterable, NamedTuple, Optional, Tuple
+from typing import (
+    Callable,
+    Dict,
+    FrozenSet,
+    Iterable,
+    List,
+    NamedTuple,
+    Optional,
+    Tuple,
+)
 from xml.etree import ElementTree
 
 from pkg_resources import resource_string
@@ -65,18 +74,15 @@ def load() -> Tuple[datetime, dict]:
     # currency number. Pre-initialized with None to avoid having None assigned
     # as enum value to number-less historical funds.
     date1, active = _load_list("list_one.xml", "CcyTbl/CcyNtry", _currency_data)
-    date2, historical = _load_list(
+    date2, historic = _load_list(
         "list_three.xml", "HstrcCcyTbl/HstrcCcyNtry", _historic_data
     )
-    both = sorted(
-        chain(active, historical),
-        key=lambda c: (c["code"], c["entity"]),
-    )
+    both = sorted(chain(active, historic), key=lambda c: c["code"])
     currencies = (
         _group_entities(list(g)) for _, g in groupby(both, lambda c: c["code"])
     )
-    table = ((c["code"], CurrencyInfo(**c)) for c in currencies)
-    return max(date1, date2), {code: info for code, info in table}
+    table = {c.code: c for c in currencies}
+    return max(date1, date2), table
 
 
 def _load_list(
@@ -95,9 +101,8 @@ def _currency_data(node: ElementTree) -> Optional[dict]:
     unit = node.find("CcyNm")
     if unit.text != "No universal currency":
         subunit_exp = node.find("CcyMnrUnts").text
-        code = node.find("Ccy").text
         return dict(
-            code=code,
+            code=node.find("Ccy").text,
             number=int(node.find("CcyNbr").text),
             unit=unit.text.rstrip(),
             subunit_exp=int(subunit_exp) if subunit_exp != "N.A." else None,
@@ -109,29 +114,32 @@ def _currency_data(node: ElementTree) -> Optional[dict]:
 def _historic_data(node: ElementTree) -> dict:
     unit = node.find("CcyNm")
     number = node.find("CcyNbr")
-    number = number.text if number is not None else None
     return dict(
         code=node.find("Ccy").text,
-        number=int(number) if number else None,
+        number=int(number.text) if number is not None else None,
         unit=unit.text.rstrip(),
         subunit_exp=None,
         is_fund="IsFund" in unit.attrib,
-        entity=node.find("CtryNm").text.strip(),
+        withdrew_entity=node.find("CtryNm").text.strip(),
         withdrawal_date=ApproxTimeSpan.from_str(node.find("WthdrwlDt").text),
     )
 
 
-def _group_entities(currencies) -> dict:
-    entities = frozenset(
-        c.pop("entity") for c in currencies if "withdrawal_date" not in c
-    )
+def _group_entities(entries: List[Dict]) -> CurrencyInfo:
+    entities = frozenset(e["entity"] for e in entries if "entity" in e)
     withdrew_entities = (
-        (c.pop("entity"), c.pop("withdrawal_date"))
-        for c in currencies
-        if "withdrawal_date" in c
+        (e["withdrew_entity"], e["unit"], e["withdrawal_date"])
+        for e in entries
+        if "withdrew_entity" in e
     )
-    withdrew_entities = tuple(sorted(withdrew_entities, key=lambda e: e[1]))
-
-    currencies[0]["entities"] = entities
-    currencies[0]["withdrew_entities"] = withdrew_entities
-    return currencies[0]
+    withdrew_entities = tuple(sorted(withdrew_entities, key=lambda e: e[2]))
+    currency = entries[0]
+    return CurrencyInfo(
+        code=currency["code"],
+        number=currency["number"],
+        unit=currency["unit"],
+        subunit_exp=currency["subunit_exp"],
+        is_fund=currency["is_fund"],
+        entities=entities,
+        withdrew_entities=withdrew_entities,
+    )

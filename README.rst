@@ -21,7 +21,7 @@ frozenset({'JAPAN'})
 >>> Currency.ZWR.entities
 frozenset()
 >>> Currency.ZWR.withdrew_entities
-(('ZIMBABWE', ApproxTimeSpan(end=ApproxDate(year=2009, month=6), begin=None)),)
+(('ZIMBABWE', 'Zimbabwe Dollar', ApproxTimeSpan(end=ApproxDate(year=2009, month=6), begin=None)),)
 
 Can define units in pint UnitRegistry:
 
