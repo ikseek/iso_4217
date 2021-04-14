@@ -38,6 +38,8 @@ Subunits are defined with `s` prefix:
 <Quantity(5, 'sUSD')>
 >>> (5 * reg.sUSD).to("USD")
 <Quantity(0.05, 'USD')>
+>>> (5 * reg.sBHD).to_base_units()
+<Quantity(0.005, 'BHD')>
 
 Each currency is defined within it's own dimension:
 
