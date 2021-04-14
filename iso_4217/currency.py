@@ -1,16 +1,16 @@
 import enum
 from collections import defaultdict, deque
-from typing import FrozenSet, Optional, Tuple
+from typing import Dict, FrozenSet, Optional, Tuple
 
 from . import pint
-from .lists import load
+from .lists import Historic, load
 
 __published_date__, _TABLE = load()
 
 
-def _generate_enum(locals):
+def _generate_enum(locals: Dict) -> None:
     names = defaultdict(deque)
-    for code, info in _TABLE.items():
+    for _, info in _TABLE.items():
         if info.entities:
             names[info.name].appendleft(info)
         else:
@@ -33,10 +33,9 @@ class Currency(enum.Enum):
     and "Codes for historic denominations of currencies & funds" lists.
 
     *Member name* is a 3-letter uppercase currency code
-    *Member value* is the currency number or a tuple(currnency number, alias number).
-    Alias number is there to distinguish historical currencies
-    that share the same currency number.
-    Some historical currencies have no currency number assigned to them.
+    *Member value* is currency name. Historical currencies have withdrawl year added
+                   to the name to differentiate currencies that were withdrawn multiple
+                   times.
 
     >>> Currency['EUR'].name
     'EUR'
@@ -54,9 +53,7 @@ class Currency(enum.Enum):
     def number(self) -> Optional[int]:
         """
         Three-digit currency code number.
-        Same as value except for historical currencies that might have their
-        number reused and have tuple(currnency number, alias number)
-        as value.
+        Many historical currencies share same number.
 
         >>> Currency.USD.number
         840
@@ -80,7 +77,7 @@ class Currency(enum.Enum):
         return _TABLE[self.name].entities
 
     @property
-    def withdrew_entities(self) -> Tuple[Tuple[str, str], ...]:
+    def withdrew_entities(self) -> Tuple[Historic, ...]:
         """
         Countries or other entities that do not use the currency anymore.
         :return: List of tuples of entities and dates when withdrawl happened.

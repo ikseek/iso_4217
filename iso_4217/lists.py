@@ -45,6 +45,10 @@ class ApproxTimeSpan(NamedTuple):
 
 
 class Historic(NamedTuple):
+    """
+    Contains information about currency withdrawal event.
+    """
+
     entity: str
     name: str
     time: ApproxTimeSpan
@@ -65,9 +69,6 @@ class CurrencyInfo(NamedTuple):
 
 
 def load() -> Tuple[datetime, dict]:
-    # Used to keep track and separate (historical) currencies sharing the same
-    # currency number. Pre-initialized with None to avoid having None assigned
-    # as enum value to number-less historical funds.
     date1, active = _load_list("list_one.xml", "CcyTbl/CcyNtry", _currency_data)
     date2, historic = _load_list(
         "list_three.xml", "HstrcCcyTbl/HstrcCcyNtry", _historic_data
@@ -81,8 +82,8 @@ def load() -> Tuple[datetime, dict]:
 
 
 def _load_list(
-    filename: str, path: str, convert: Callable
-) -> Tuple[datetime, Iterable[dict]]:
+    filename: str, path: str, convert: Callable[[ElementTree.Element], Optional[Dict]]
+) -> Tuple[datetime, Iterable[Dict]]:
     tree = ElementTree.fromstring(_load_xml_resource(filename))
     date = datetime.strptime(tree.attrib["Pblshd"], "%Y-%m-%d")
     return date, filter(None, (convert(node) for node in tree.findall(path)))
@@ -92,7 +93,7 @@ def _load_xml_resource(filename: str) -> str:
     return resource_string(__name__, "data/" + filename)
 
 
-def _currency_data(node: ElementTree) -> Optional[dict]:
+def _currency_data(node: ElementTree.Element) -> Optional[Dict]:
     name = node.find("CcyNm")
     if name.text != "No universal currency":
         subunit_exp = node.find("CcyMnrUnts").text
@@ -106,7 +107,7 @@ def _currency_data(node: ElementTree) -> Optional[dict]:
         )
 
 
-def _historic_data(node: ElementTree) -> dict:
+def _historic_data(node: ElementTree.Element) -> Dict:
     name = node.find("CcyNm")
     number = node.find("CcyNbr")
     return dict(
