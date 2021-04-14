@@ -32,13 +32,13 @@ Can define units in pint UnitRegistry:
 >>> reg("5 Euros")
 <Quantity(5, 'EUR')>
 
-Subunits are defined with `s` prefix:
+Subunits are defined with `s` suffix:
 
->>> 5 * reg.sUSD
-<Quantity(5, 'sUSD')>
->>> (5 * reg.sUSD).to("USD")
+>>> 5 * reg.USDs
+<Quantity(5, 'USDs')>
+>>> (5 * reg.USDs).to("USD")
 <Quantity(0.05, 'USD')>
->>> (5 * reg.sBHD).to_base_units()
+>>> (5 * reg.BHDs).to_base_units()
 <Quantity(0.005, 'BHD')>
 
 Each currency is defined within it's own dimension:

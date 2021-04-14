@@ -44,7 +44,7 @@ def define_currency_units(registry: UnitRegistry = None):
             registry.define(
                 "{0} = [currency_{0}] = _ = {1} = {2}".format(c.name, alias1, alias2)
             )
-            registry.define("s{0} = {0} / {1}".format(c.name, 10 ** c.subunit_exp))
+            registry.define("{0}s = {0} / {1}".format(c.name, 10 ** c.subunit_exp))
     _keep_currency_registry(registry)
     return registry
 

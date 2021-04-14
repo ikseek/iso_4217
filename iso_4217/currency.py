@@ -131,12 +131,12 @@ class Currency(enum.Enum):
         """
         If the pint package is installed and currency units are defined by calling
         define_currency_units on any registry, this will return corresponding
-        dummy pint subunit. These have non-standard currency codes, prefixed with 's'.
+        dummy pint subunit. These have non-standard currency codes, suffixed with 's'.
 
         >>> Currency.EUR.subunit
-        <Unit('sEUR')>
+        <Unit('EURs')>
         """
-        return pint.currency_registry.Unit("s" + self.name)
+        return pint.currency_registry.Unit(self.name + "s")
 
     def __str__(self):
         return self.name
