@@ -45,10 +45,9 @@ class ApproxTimeSpan(NamedTuple):
 
 
 class Historic(NamedTuple):
-    """Datatype that sets apart active and historic currencies"""
-
-    number: Optional[int]
-    code: str
+    entity: str
+    name: str
+    time: ApproxTimeSpan
 
 
 class CurrencyInfo(NamedTuple):
@@ -57,16 +56,12 @@ class CurrencyInfo(NamedTuple):
     """
 
     code: str
+    name: str
     number: Optional[int]
-    unit: str
     subunit_exp: Optional[int]
     is_fund: bool
     entities: FrozenSet[str]
-    withdrew_entities: Tuple[Tuple[str, ApproxTimeSpan], ...]
-
-    @property
-    def discriminator(self):
-        return self.number if self.entities else Historic(self.number, self.code)
+    withdrew_entities: Tuple[Historic, ...]
 
 
 def load() -> Tuple[datetime, dict]:
@@ -98,28 +93,28 @@ def _load_xml_resource(filename: str) -> str:
 
 
 def _currency_data(node: ElementTree) -> Optional[dict]:
-    unit = node.find("CcyNm")
-    if unit.text != "No universal currency":
+    name = node.find("CcyNm")
+    if name.text != "No universal currency":
         subunit_exp = node.find("CcyMnrUnts").text
         return dict(
             code=node.find("Ccy").text,
             number=int(node.find("CcyNbr").text),
-            unit=unit.text.rstrip(),
+            name=name.text.rstrip(),
             subunit_exp=int(subunit_exp) if subunit_exp != "N.A." else None,
-            is_fund="IsFund" in unit.attrib,
+            is_fund="IsFund" in name.attrib,
             entity=node.find("CtryNm").text.strip(),
         )
 
 
 def _historic_data(node: ElementTree) -> dict:
-    unit = node.find("CcyNm")
+    name = node.find("CcyNm")
     number = node.find("CcyNbr")
     return dict(
         code=node.find("Ccy").text,
         number=int(number.text) if number is not None else None,
-        unit=unit.text.rstrip(),
+        name=name.text.rstrip(),
         subunit_exp=None,
-        is_fund="IsFund" in unit.attrib,
+        is_fund="IsFund" in name.attrib,
         withdrew_entity=node.find("CtryNm").text.strip(),
         withdrawal_date=ApproxTimeSpan.from_str(node.find("WthdrwlDt").text),
     )
@@ -128,16 +123,16 @@ def _historic_data(node: ElementTree) -> dict:
 def _group_entities(entries: List[Dict]) -> CurrencyInfo:
     entities = frozenset(e["entity"] for e in entries if "entity" in e)
     withdrew_entities = (
-        (e["withdrew_entity"], e["unit"], e["withdrawal_date"])
+        Historic(e["withdrew_entity"], e["name"], e["withdrawal_date"])
         for e in entries
         if "withdrew_entity" in e
     )
-    withdrew_entities = tuple(sorted(withdrew_entities, key=lambda e: e[2]))
+    withdrew_entities = tuple(sorted(withdrew_entities, key=lambda e: e.time))
     currency = entries[0]
     return CurrencyInfo(
         code=currency["code"],
         number=currency["number"],
-        unit=currency["unit"],
+        name=currency["name"],
         subunit_exp=currency["subunit_exp"],
         is_fund=currency["is_fund"],
         entities=entities,

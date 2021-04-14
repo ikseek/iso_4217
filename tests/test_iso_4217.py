@@ -1,4 +1,4 @@
-from iso_4217 import Currency, Historic, __version__
+from iso_4217 import Currency, __version__
 from iso_4217.lists import ApproxDate, ApproxTimeSpan
 
 
@@ -15,9 +15,9 @@ def test_active_currencies_count():
 
 
 def test_uah():
-    assert Currency.UAH.value == 980
     assert Currency.UAH.name == "UAH"
-    assert Currency.UAH.unit == "Hryvnia"
+    assert Currency.UAH.value == "Hryvnia"
+    assert Currency.UAH.number == 980
     assert Currency.UAH.entities == frozenset({"UKRAINE"})
     assert Currency.UAH.withdrew_entities == ()
     assert Currency.UAH.is_fund is False
@@ -25,9 +25,9 @@ def test_uah():
 
 
 def test_eur():
-    assert Currency.EUR.value == 978
     assert Currency.EUR.name == "EUR"
-    assert Currency.EUR.unit == "Euro"
+    assert Currency.EUR.value == "Euro"
+    assert Currency.EUR.number == 978
     assert len(Currency.EUR.entities) == 35
     assert Currency.EUR.withdrew_entities == (
         ("SERBIA AND MONTENEGRO", "Euro", ApproxTimeSpan(ApproxDate(2006, 10))),
@@ -37,9 +37,9 @@ def test_eur():
 
 
 def test_ron():
-    assert Currency.RON.value == 946
     assert Currency.RON.name == "RON"
-    assert Currency.RON.unit == "Romanian Leu"
+    assert Currency.RON.value == "Romanian Leu"
+    assert Currency.RON.number == 946
     assert Currency.RON.entities == frozenset({"ROMANIA"})
     assert Currency.RON.withdrew_entities == (
         ("ROMANIA", "New Romanian Leu", ApproxTimeSpan(ApproxDate(2015, 6))),
@@ -49,11 +49,11 @@ def test_ron():
 
 
 def test_bgk_bgj():
-    assert Currency.BGK.value == Historic(100, "BGK")
-    assert Currency.BGJ.value == Historic(100, "BGJ")
+    assert Currency.BGK.value == "Lev A/62 (1989)"
+    assert Currency.BGJ.value == "Lev A/52 (1989)"
 
 
 def test_missing_codes():
-    assert Currency.XFO.value == Historic(None, "XFO")
-    assert Currency.XRE.value == Historic(None, "XRE")
-    assert Currency.XFU.value == Historic(None, "XFU")
+    assert Currency.XFO.value == "Gold-Franc (2006)"
+    assert Currency.XRE.value == "RINET Funds Code (1999)"
+    assert Currency.XFU.value == "UIC-Franc (2013)"

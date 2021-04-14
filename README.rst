@@ -9,19 +9,19 @@ Written and tested for Python 3.6 and above.
 
 >>> from iso_4217 import Currency
 >>> Currency.USD
-<Currency.USD: 840>
->>> Currency.USD.unit
+<Currency.USD: 'US Dollar'>
+>>> Currency.USD.value
 'US Dollar'
->>> Currency(840)
-<Currency.USD: 840>
+>>> Currency('US Dollar')
+<Currency.USD: 'US Dollar'>
 >>> Currency.JPY.entities
 frozenset({'JAPAN'})
 >>> Currency.ZWR
-<Currency.ZWR: Historic(number=935, code='ZWR')>
+<Currency.ZWR: 'Zimbabwe Dollar (2009)'>
 >>> Currency.ZWR.entities
 frozenset()
 >>> Currency.ZWR.withdrew_entities
-(('ZIMBABWE', 'Zimbabwe Dollar', ApproxTimeSpan(end=ApproxDate(year=2009, month=6), begin=None)),)
+(Historic(entity='ZIMBABWE', name='Zimbabwe Dollar'...2009, month=6), begin=None)),)
 
 Can define units in pint UnitRegistry:
 
