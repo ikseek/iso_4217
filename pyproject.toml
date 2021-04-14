@@ -1,9 +1,13 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
 [tool.poetry]
 authors = ["Igor Kozyrenko <igor@ikseek.com>"]
 description = "ISO 4217 currency code library"
 name = "iso_4217"
 readme = "README.rst"
-repository ="https://github.com/ikseek/iso_4217"
+repository = "https://github.com/ikseek/iso_4217"
 version = "0.2.180829"
 
 [tool.poetry.dependencies]
@@ -16,7 +20,3 @@ pre-commit = "^2.7.1"
 
 [tool.poetry.extras]
 pint = ["pint"]
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"

@@ -5,28 +5,29 @@ repos:
     -   id: black
 
 -   repo: https://gitlab.com/pycqa/flake8
-    rev: 3.8.3
+    rev: 3.9.0
     hooks:
     -   id: flake8
-        args: [--max-line-length=88]
+        args: [--max-line-length=88, --ignore=E203]
 
 -   repo: https://github.com/pre-commit/mirrors-isort
-    rev: v5.5.2
+    rev: v5.8.0
     hooks:
     -   id: isort
         args: [--profile=black]
 
 -   repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-    rev: v1.5.0
+    rev: v2.0.0
     hooks:
     -   id: pretty-format-toml
         args: [--autofix]
-        files: Pipfile
+        files: toml$
     -   id: pretty-format-yaml
         args: [--autofix, --indent=4]
+        files: yaml$
 
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.2.0
+    rev: v3.4.0
     hooks:
     -   id: check-case-conflict
     -   id: end-of-file-fixer
