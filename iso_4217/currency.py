@@ -2,6 +2,7 @@ import enum
 from collections import defaultdict, deque
 from typing import FrozenSet, Optional, Tuple
 
+from . import pint
 from .lists import load
 
 __published_date__, _TABLE = load()
@@ -113,6 +114,29 @@ class Currency(enum.Enum):
         0
         """
         return _TABLE[self.name].subunit_exp
+
+    @property
+    def unit(self):
+        """
+        If the pint package is installed and currency units are defined by calling
+        define_currency_units on any registry, this will return corresponding pint unit.
+
+        >>> Currency.EUR.unit
+        <Unit('EUR')>
+        """
+        return pint.currency_registry.Unit(self.name)
+
+    @property
+    def subunit(self):
+        """
+        If the pint package is installed and currency units are defined by calling
+        define_currency_units on any registry, this will return corresponding
+        dummy pint subunit. These have non-standard currency codes, prefixed with 's'.
+
+        >>> Currency.EUR.subunit
+        <Unit('sEUR')>
+        """
+        return pint.currency_registry.Unit("s" + self.name)
 
     def __str__(self):
         return self.name

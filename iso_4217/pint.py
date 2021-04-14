@@ -8,10 +8,20 @@ from . import currency
 class NoRegistry:
     def __init__(self, **kwargs):
         if kwargs:
-            self._no_pint_installed()
+            NoRegistry._needs_pint()
 
-    def _no_pint_installed(self):
-        pass
+    class Unit:
+        def __init__(self, _):
+            NoRegistry._needs_pint()
+
+    @staticmethod
+    def _needs_pint():
+        raise RuntimeError(
+            "This feature requires pint package installed. "
+            "After that currencies should be defined in a registry by {} call".format(
+                define_currency_units.__name__
+            )
+        )
 
 
 try:
