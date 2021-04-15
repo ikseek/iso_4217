@@ -1,5 +1,4 @@
 import enum
-from collections import defaultdict, deque
 from typing import Dict, FrozenSet, Optional, Tuple
 
 from .lists import Historic, load
@@ -9,22 +8,12 @@ __published_date__, _TABLE = load()
 
 
 def _generate_enum(locals: Dict) -> None:
-    names = defaultdict(deque)
-    for _, info in _TABLE.items():
-        if info.entities:
-            names[info.name].appendleft(info)
+    for code, currency in _TABLE.items():
+        if currency.entities:
+            locals[code] = currency.name
         else:
-            names[info.name].append(info)
-    renamed = {}
-    for name, currencies in names.items():
-        if currencies[0].entities:
-            active = currencies.popleft()
-            renamed[active.code] = name
-        for historic in currencies:
-            last_year = historic.withdrew_entities[-1].time.end.year
-            renamed[historic.code] = "{} ({})".format(name, last_year)
-    for name, value in renamed.items():
-        locals[name] = value
+            last_year = currency.withdrew_entities[-1].time.end.year
+            locals[code] = "{} ({})".format(currency.name, last_year)
 
 
 class Currency(enum.Enum):
