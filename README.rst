@@ -4,8 +4,9 @@
 .. image:: https://img.shields.io/pypi/v/iso-4217?style=plastic
    :target: https://pypi.org/project/iso-4217/
 
-This package contains ISO 4217 active and historical currency data.
+This package contains ISO 4217 *active* and *historical* currency data.
 Written and tested for Python 3.6 and above.
+Supports `pint`_ for operations with currency units.
 
 >>> from iso_4217 import Currency
 >>> Currency.USD
@@ -23,14 +24,35 @@ frozenset()
 >>> Currency.ZWR.withdrew_entities
 (Historic(entity='ZIMBABWE', name='Zimbabwe Dollar'...2009, month=6), begin=None)),)
 
-Can define units in pint UnitRegistry:
 
->>> from iso_4217.pint import define_currency_units
->>> reg = define_currency_units()
+Pint units and subunits are available with convenient :code:`unit` and :code:`subunit`
+properties on Currency. Accessing these properties requires `pint` package installed
+and automatically defines currency units in application default registry.
+
+>>> Currency.USD.unit * 5 + Currency.USD.subunit * 5
+<Quantity(5.05, 'USD')>
+
+Currency units can be defined in any UnitRegistry manually
+
+>>> import pint
+>>> from decimal import Decimal
+>>> from iso_4217 import define_currency_units
+>>> reg = define_currency_units(pint.UnitRegistry(non_int_type=Decimal))
 >>> 5 * reg.USD
 <Quantity(5, 'USD')>
->>> reg("5 Euros")
-<Quantity(5, 'EUR')>
+
+But units from separate registries should not be mixed
+
+>>> Currency.USD.unit == reg.USD
+Traceback (most recent call last):
+...
+ValueError: Cannot operate with Unit and Unit of different registries.
+
+If you want to replace registry used by Currency just replace the application registry:
+
+>>> pint.set_application_registry(reg)
+>>> Currency.USD.unit == reg.USD
+True
 
 Subunits are defined with `s` suffix:
 
@@ -48,12 +70,15 @@ Traceback (most recent call last):
 ...
 pint.errors.DimensionalityError: Cannot convert from 'USD' ([currency_USD]) to 'EUR' ([currency_EUR])
 
-Pint units and subunits are also available with convenient `unit` and `subunit`
-properties on Currency
+But automatic currency conversion can be made via pint Contexts
 
->>> Currency.USD.unit * 5 + Currency.USD.subunit * 5
-<Quantity(5.05, 'USD')>
+>>> context = pint.Context()
+>>> eur_to_usd = lambda r, eur: eur * r("1.2 USD/EUR")
+>>> context.add_transformation("[currency_EUR]", "[currency_USD]", eur_to_usd)
+>>> (Currency.EUR.unit * 5).to('USD', context)
+<Quantity(6.0, 'USD')>
 
 Inspired by `iso4217`_ package by Hong Minhee.
 
 .. _iso4217: https://github.com/dahlia/iso4217
+.. _pint: https://pint.readthedocs.io

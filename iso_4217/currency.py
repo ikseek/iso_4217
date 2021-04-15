@@ -2,8 +2,8 @@ import enum
 from collections import defaultdict, deque
 from typing import Dict, FrozenSet, Optional, Tuple
 
-from . import pint
 from .lists import Historic, load
+from .pint import currency_unit
 
 __published_date__, _TABLE = load()
 
@@ -121,7 +121,7 @@ class Currency(enum.Enum):
         >>> Currency.EUR.unit
         <Unit('EUR')>
         """
-        return pint.currency_registry.Unit(self.name)
+        return currency_unit(self.name)
 
     @property
     def subunit(self):
@@ -133,7 +133,7 @@ class Currency(enum.Enum):
         >>> Currency.EUR.subunit
         <Unit('EURs')>
         """
-        return pint.currency_registry.Unit(self.name + "s")
+        return currency_unit(self.name + "s")
 
     def __str__(self):
         return self.name
