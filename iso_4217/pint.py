@@ -29,6 +29,3 @@ def currency_unit(name: str):
         return registry.Unit(name)
     except UndefinedUnitError:
         return define_currency_units(registry).Unit(name)
-
-
-_last_registry = None
