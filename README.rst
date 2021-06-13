@@ -13,6 +13,8 @@ Supports `pint`_ for operations with currency units.
 <Currency.USD: 'US Dollar'>
 >>> Currency.USD.value
 'US Dollar'
+>>> Currency.USD.number
+840
 >>> Currency('US Dollar')
 <Currency.USD: 'US Dollar'>
 >>> Currency.JPY.entities
