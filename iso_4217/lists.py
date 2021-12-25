@@ -1,3 +1,4 @@
+import locale
 from datetime import datetime
 from itertools import chain, groupby
 from typing import (
@@ -69,12 +70,15 @@ class CurrencyInfo(NamedTuple):
 
 
 def load() -> Tuple[datetime, dict]:
+    current = locale.getlocale(locale.LC_TIME)
+    locale.setlocale(locale.LC_TIME, "C")
     date1, active = _load_list(
         "list_one.xml", "CcyTbl/CcyNtry", _currency_data, "%B %d, %Y"
     )
     date2, historic = _load_list(
         "list_three.xml", "HstrcCcyTbl/HstrcCcyNtry", _historic_data, "%Y-%m-%d"
     )
+    locale.setlocale(locale.LC_TIME, current)
     both = sorted(chain(active, historic), key=lambda c: c["code"])
     currencies = (
         _group_entities(list(g)) for _, g in groupby(both, lambda c: c["code"])
