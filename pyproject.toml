@@ -15,7 +15,7 @@ python = "^3.6.1"
 pint = {version = "^0.16", optional = true}
 
 [tool.poetry.dev-dependencies]
-pytest = "^4.6"
+pytest = "^6.2.5"
 pre-commit = "^2.7.1"
 
 [tool.poetry.extras]
