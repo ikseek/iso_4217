@@ -8,9 +8,17 @@ __published_date__, _TABLE = load()
 
 
 def _generate_enum(locals: Dict) -> None:
+    from collections import Counter
+
+    # VES and VED currencies got the same name, should generate distinct values for them
+    reused_names = Counter(c.name for c in _TABLE.values() if c.entities)
+    reused_names = {name for name, count in reused_names.most_common() if count > 1}
     for code, currency in _TABLE.items():
         if currency.entities:
-            locals[code] = currency.name
+            if currency.name in reused_names:
+                locals[code] = "{} ({})".format(currency.name, code)
+            else:
+                locals[code] = currency.name
         else:
             last_year = currency.withdrew_entities[-1].time.end.year
             locals[code] = "{} ({})".format(currency.name, last_year)

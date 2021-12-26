@@ -7,11 +7,11 @@ def test_version():
 
 
 def test_currency_count():
-    assert len(Currency) == 302
+    assert len(Currency) == 303
 
 
 def test_active_currencies_count():
-    assert sum(bool(c.entities) for c in Currency) == 179
+    assert sum(bool(c.entities) for c in Currency) == 180
 
 
 def test_uah():
@@ -57,3 +57,10 @@ def test_missing_codes():
     assert Currency.XFO.value == "Gold-Franc (2006)"
     assert Currency.XRE.value == "RINET Funds Code (1999)"
     assert Currency.XFU.value == "UIC-Franc (2013)"
+
+
+def test_ves_ved():
+    assert Currency.VES.number == 928
+    assert Currency.VES.value == "Bolívar Soberano (VES)"
+    assert Currency.VED.number == 926
+    assert Currency.VED.value == "Bolívar Soberano (VED)"
