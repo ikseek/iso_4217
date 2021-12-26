@@ -9,6 +9,19 @@ name = "iso_4217"
 readme = "README.rst"
 repository = "https://github.com/ikseek/iso_4217"
 version = "0.3.211001"
+classifiers = [
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Topic :: Software Development :: Libraries",
+]
 
 [tool.poetry.dependencies]
 python = "^3.6.1"
