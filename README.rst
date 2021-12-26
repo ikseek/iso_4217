@@ -25,6 +25,8 @@ frozenset({'JAPAN'})
 frozenset()
 >>> Currency.ZWR.withdrew_entities
 (Historic(entity='ZIMBABWE', name='Zimbabwe Dollar'...2009, month=6), begin=None)),)
+>>> Currency.VED
+<Currency.VED: 'Bolívar Soberano (VED)'>
 
 
 Pint units and subunits are available with convenient :code:`unit` and :code:`subunit`
