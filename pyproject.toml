@@ -8,7 +8,7 @@ description = "ISO 4217 currency code library"
 name = "iso_4217"
 readme = "README.rst"
 repository = "https://github.com/ikseek/iso_4217"
-version = "0.3.211001"
+version = "0.4.211001"
 classifiers = [
     "Intended Audience :: Financial and Insurance Industry",
     "License :: OSI Approved :: MIT License",
