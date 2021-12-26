@@ -33,3 +33,6 @@ pre-commit = "^2.7.1"
 
 [tool.poetry.extras]
 pint = ["pint"]
+
+[tool.pytest.ini_options]
+addopts = "--doctest-modules --doctest-glob '*.rst'"
