@@ -3,15 +3,15 @@ from iso_4217.lists import ApproxDate, ApproxTimeSpan
 
 
 def test_version():
-    assert __version__ == "0.4.211001"
+    assert __version__ == "0.4.220401"
 
 
 def test_currency_count():
-    assert len(Currency) == 303
+    assert len(Currency) == 304
 
 
 def test_active_currencies_count():
-    assert sum(bool(c.entities) for c in Currency) == 180
+    assert sum(bool(c.entities) for c in Currency) == 181
 
 
 def test_uah():
@@ -64,3 +64,8 @@ def test_ves_ved():
     assert Currency.VES.value == "Bolívar Soberano (VES)"
     assert Currency.VED.number == 926
     assert Currency.VED.value == "Bolívar Soberano (VED)"
+
+
+def test_sle():
+    assert Currency.SLE.number == 925
+    assert Currency.SLE.value == "Leone (SLE)"
