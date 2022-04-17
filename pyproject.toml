@@ -5,13 +5,13 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry]
 authors = ["Igor Kozyrenko <igor@ikseek.com>"]
 description = "ISO 4217 currency code library"
+license = "MIT"
 name = "iso_4217"
 readme = "README.rst"
 repository = "https://github.com/ikseek/iso_4217"
 version = "0.4.220401"
 classifiers = [
     "Intended Audience :: Financial and Insurance Industry",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3",
