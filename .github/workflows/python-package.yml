@@ -17,7 +17,7 @@ jobs:
                 python-version: ${{ matrix.python-version }}
         -   name: Install dependencies
             run: |
-                python -m pip install --upgrade pip setuptools poetry
-                poetry install -E pint
+                python -m pip install --upgrade pip setuptools
+                python -m pip install -e '.[pint,test]'
         -   name: Test with pytest
-            run: poetry run pytest
+            run: python -m pytest
