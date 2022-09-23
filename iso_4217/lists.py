@@ -72,9 +72,9 @@ class CurrencyInfo(NamedTuple):
 def load() -> Tuple[datetime, dict]:
     current = locale.getlocale(locale.LC_TIME)
     locale.setlocale(locale.LC_TIME, "C")
-    date1, active = _load_list("list_one.xml", "CcyTbl/CcyNtry", _currency_data)
+    date1, active = _load_list("list-one.xml", "CcyTbl/CcyNtry", _currency_data)
     date2, historic = _load_list(
-        "list_three.xml", "HstrcCcyTbl/HstrcCcyNtry", _historic_data
+        "list-three.xml", "HstrcCcyTbl/HstrcCcyNtry", _historic_data
     )
     locale.setlocale(locale.LC_TIME, current)
     both = sorted(chain(active, historic), key=lambda c: c["code"])
