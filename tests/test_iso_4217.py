@@ -3,7 +3,7 @@ from iso_4217.lists import ApproxDate, ApproxTimeSpan
 
 
 def test_version():
-    assert __version__ == "0.5.220923"
+    assert __version__ == "0.5.230101"
 
 
 def test_currency_count():
@@ -11,7 +11,7 @@ def test_currency_count():
 
 
 def test_active_currencies_count():
-    assert sum(bool(c.entities) for c in Currency) == 181
+    assert sum(bool(c.entities) for c in Currency) == 180
 
 
 def test_uah():
@@ -28,7 +28,7 @@ def test_eur():
     assert Currency.EUR.name == "EUR"
     assert Currency.EUR.value == "Euro"
     assert Currency.EUR.number == 978
-    assert len(Currency.EUR.entities) == 35
+    assert len(Currency.EUR.entities) == 36
     assert Currency.EUR.withdrew_entities == (
         ("SERBIA AND MONTENEGRO", "Euro", ApproxTimeSpan(ApproxDate(2006, 10))),
     )
