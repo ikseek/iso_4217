@@ -13,8 +13,6 @@ from typing import (
 )
 from xml.etree import ElementTree
 
-from pkg_resources import resource_string
-
 
 class ApproxDate(NamedTuple):
     """Parsed approximate currency withdrawal date"""
@@ -93,8 +91,17 @@ def _load_list(
     return date, filter(None, (convert(node) for node in tree.findall(path)))
 
 
-def _load_xml_resource(filename: str) -> str:
-    return resource_string(__name__, "data/" + filename)
+def _load_xml_resource(filename: str) -> bytes:
+    try:
+        from importlib.resources import files
+
+        return files().joinpath("data/" + filename).read_bytes()
+    # Old python versions might miss
+    # argument-less files function, files function itself or resources modules
+    except (AttributeError, ImportError, TypeError):
+        from pkg_resources import resource_string
+
+        return resource_string(__name__, "data/" + filename)
 
 
 def _currency_data(node: ElementTree.Element) -> Optional[Dict]:
