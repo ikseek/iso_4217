@@ -5,7 +5,6 @@
    :target: https://pypi.org/project/iso-4217/
 
 This package contains ISO 4217 *active* and *historical* currency data.
-Written and tested for Python 3.6 and above.
 Supports `pint`_ for operations with currency units.
 
 >>> from iso_4217 import Currency
