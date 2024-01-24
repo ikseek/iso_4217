@@ -3,7 +3,7 @@ from iso_4217.lists import ApproxDate, ApproxTimeSpan
 
 
 def test_version():
-    assert __version__ == "0.5.240101"
+    assert __version__ == "0.6.240101"
 
 
 def test_currency_count():
