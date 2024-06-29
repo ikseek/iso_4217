@@ -3,15 +3,15 @@ from iso_4217.lists import ApproxDate, ApproxTimeSpan
 
 
 def test_version():
-    assert __version__ == "0.6.240101"
+    assert __version__ == "0.6.240625"
 
 
 def test_currency_count():
-    assert len(Currency) == 304
+    assert len(Currency) == 305
 
 
 def test_active_currencies_count():
-    assert sum(bool(c.entities) for c in Currency) == 179
+    assert sum(bool(c.entities) for c in Currency) == 180
 
 
 def test_uah():
@@ -46,6 +46,13 @@ def test_ron():
     )
     assert Currency.RON.is_fund is False
     assert Currency.RON.subunit_exp == 2
+
+
+def test_zwg():
+    assert Currency.ZWG.name == "ZWG"
+    assert Currency.ZWG.value == "Zimbabwe Gold"
+    assert Currency.ZWG.number == 924
+    assert Currency.ZWG.entities == frozenset({'ZIMBABWE'})
 
 
 def test_bgk_bgj():
