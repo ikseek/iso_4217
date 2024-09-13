@@ -1,9 +1,9 @@
 from iso_4217 import Currency, __version__
-from iso_4217.lists import ApproxDate, ApproxTimeSpan
+from iso_4217.lists import ApproxDate, ApproxTimeSpan, Historic
 
 
 def test_version():
-    assert __version__ == "0.6.240625"
+    assert __version__ == "0.6.240901"
 
 
 def test_currency_count():
@@ -11,7 +11,7 @@ def test_currency_count():
 
 
 def test_active_currencies_count():
-    assert sum(bool(c.entities) for c in Currency) == 180
+    assert sum(bool(c.entities) for c in Currency) == 179
 
 
 def test_uah():
@@ -52,7 +52,7 @@ def test_zwg():
     assert Currency.ZWG.name == "ZWG"
     assert Currency.ZWG.value == "Zimbabwe Gold"
     assert Currency.ZWG.number == 924
-    assert Currency.ZWG.entities == frozenset({'ZIMBABWE'})
+    assert Currency.ZWG.entities == frozenset({"ZIMBABWE"})
 
 
 def test_bgk_bgj():
@@ -71,3 +71,15 @@ def test_ves_ved():
     assert Currency.VES.value == "Bolívar Soberano (VES)"
     assert Currency.VED.number == 926
     assert Currency.VED.value == "Bolívar Soberano (VED)"
+
+
+def test_zwr():
+    assert Currency.ZWR.number == 935
+    assert Currency.ZWR.entities == frozenset()
+    assert Currency.ZWR.withdrew_entities == (
+        Historic(
+            "ZIMBABWE",
+            "Zimbabwe Dollar",
+            ApproxTimeSpan(end=ApproxDate(year=2009, month=6)),
+        ),
+    )
