@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ISO_4217 Pblshd="2024-06-25">
+<ISO_4217 Pblshd="2025-02-04">
 	<CcyTbl>
 		<CcyNtry>
 			<CtryNm>AFGHANISTAN</CtryNm>
@@ -423,13 +423,6 @@
 			<CcyNm>Cuban Peso</CcyNm>
 			<Ccy>CUP</Ccy>
 			<CcyNbr>192</CcyNbr>
-			<CcyMnrUnts>2</CcyMnrUnts>
-		</CcyNtry>
-		<CcyNtry>
-			<CtryNm>CUBA</CtryNm>
-			<CcyNm>Peso Convertible</CcyNm>
-			<Ccy>CUC</Ccy>
-			<CcyNbr>931</CcyNbr>
 			<CcyMnrUnts>2</CcyMnrUnts>
 		</CcyNtry>
 		<CcyNtry>
