@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ISO_4217 Pblshd="2025-02-04">
+<ISO_4217 Pblshd="2025-03-31">
 	<HstrcCcyTbl>
 		<HstrcCcyNtry>
 			<CtryNm>AFGHANISTAN</CtryNm>
@@ -267,6 +267,13 @@
 			<CcyNbr>931</CcyNbr>
 			<WthdrwlDt>2021-06</WthdrwlDt>
 		</HstrcCcyNtry>
+		<HstrcCcyNtry>
+			<CtryNm>CURAÇAO</CtryNm>
+			<CcyNm>Netherlands Antillean Guilder</CcyNm>
+			<Ccy>ANG</Ccy>
+			<CcyNbr>532</CcyNbr>
+			<WthdrwlDt>2025-03</WthdrwlDt>
+		</HstrcCcyNtry>		
 		<HstrcCcyNtry>
 			<CtryNm>CYPRUS</CtryNm>
 			<CcyNm>Cyprus Pound</CcyNm>
@@ -812,6 +819,13 @@
 			<Ccy>SLL</Ccy>
 			<CcyNbr>694</CcyNbr>
 			<WthdrwlDt>2023-12</WthdrwlDt>
+		</HstrcCcyNtry>
+		<HstrcCcyNtry>
+			<CtryNm>SINT MAARTEN (DUTCH PART)</CtryNm>
+			<CcyNm>Netherlands Antillean Guilder</CcyNm>
+			<Ccy>ANG</Ccy>
+			<CcyNbr>532</CcyNbr>
+			<WthdrwlDt>2025-03</WthdrwlDt>
 		</HstrcCcyNtry>
 		<HstrcCcyNtry>
 			<CtryNm>SLOVAKIA</CtryNm>
