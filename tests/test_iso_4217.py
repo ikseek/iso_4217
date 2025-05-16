@@ -3,15 +3,15 @@ from iso_4217.lists import ApproxDate, ApproxTimeSpan, Historic
 
 
 def test_version():
-    assert __version__ == "0.6.250331"
+    assert __version__ == "0.6.250512"
 
 
 def test_currency_count():
-    assert len(Currency) == 306
+    assert len(Currency) == 307
 
 
 def test_active_currencies_count():
-    assert sum(bool(c.entities) for c in Currency) == 178
+    assert sum(bool(c.entities) for c in Currency) == 179
 
 
 def test_uah():
