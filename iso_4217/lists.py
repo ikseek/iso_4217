@@ -96,8 +96,7 @@ def _load_xml_resource(filename: str) -> bytes:
         from importlib.resources import files
 
         return files(__package__).joinpath("data/" + filename).read_bytes()
-    # Old python versions might miss
-    # argument-less files function, files function itself or resources modules
+    # Old python versions might miss files function or resources modules
     except (AttributeError, ImportError, TypeError):
         from pkg_resources import resource_string
 
