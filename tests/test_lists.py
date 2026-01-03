@@ -1,4 +1,5 @@
 from urllib.request import urlopen
+from pathlib import Path
 
 import pytest
 
@@ -11,4 +12,6 @@ def test_data_tables_are_up_to_date(list_xml):
         "https://www.six-group.com/dam/download/financial-information/"
         "data-center/iso-currrency/lists/"
     )
-    assert _load_xml_resource(list_xml) == urlopen(LISTS_URL + list_xml).read()
+    data = urlopen(LISTS_URL + list_xml).read().replace(b'\r\n', b'\n').replace(b'\r', b'\n')
+    # Path("iso_4217/data").joinpath(list_xml).write_bytes(data)
+    assert _load_xml_resource(list_xml) == data
