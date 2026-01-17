@@ -7,7 +7,7 @@ def test_version():
 
 
 def test_currency_count():
-    assert len(Currency) == 306
+    assert len(Currency) == 307
 
 
 def test_active_currencies_count():
